@@ -3,7 +3,7 @@ import tkinter as tk
 import ctimer.ctimer_db as db
 
 
-class CtimerClockModel():
+class CtimerClockModel:
     def __init__(self,
                  db_file=None,
                  clock_details=None,

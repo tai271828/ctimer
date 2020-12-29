@@ -24,13 +24,15 @@ class CtimerClockController:
             remaining_time
             is_break
         """
-        self.tv.show_start_button()
+        # clock is running (either focus time or break)
         if self.tm.clock_ticking:
             self.tv.show_pause_button()
+            # counting down
             if self.tm.remaining_time > 0:
                 self.tm.remaining_time -= 1
                 self.tv.show_time(self.tm.remaining_time,
                                   self.tm.clock_details.clock_count)
+            # finish counting. clock stops.
             else:
                 self.tm.clock_ticking = False
                 # is a ctimer clock
@@ -53,6 +55,9 @@ class CtimerClockController:
                     else:
                         self.tm.remaining_time = self.tm.set_break_time
                         self.tv.voice_message("enjoy")
+                    self.tm.clock_ticking = True
+
+                # is counting break
                 else:
                     # break is over. Record break-over time.
                     if self.tm.hide:
@@ -66,7 +71,7 @@ class CtimerClockController:
                     db.db_add_clock_details(self.tm.db_file, self.tm.clock_details)
                     self.tm.is_break = False
                     self.tm.remaining_time = self.tm.set_time
-                    self.tv.configure_display("Break is over!")
+                    self.tv.configure_display("Break is over!", self.tm.is_break)
                     self.tv.show_start_button()
                     self.tm.clock_ticking = False
 
