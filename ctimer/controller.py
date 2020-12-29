@@ -6,9 +6,10 @@ import ctimer.model as cm
 import ctimer.ctimer_db as db
 
 
-class CtimerClockController():
+class CtimerClockController:
     def __init__(self, db_file, clock_details, hide, debug, silence, meta, master=None):
 
+        self.master = master
         self.tm = cm.CtimerClockModel(db_file, clock_details, debug, hide, silence, meta)
         self.tv = cv.CtimerClockView(self.tm, master)
 
@@ -16,14 +17,16 @@ class CtimerClockController():
         """
         Countdown the clock
 
+        This function is a callback of tk so the controller could tell the viewer what to do next according to the
+        content of model.
+
         3 flags decide the counting-down status in order:
             clock_ticking
             remaining_time
             is_break
         """
         self.tv.show_start_button()
-        while self.tm.clock_ticking:
-            time.sleep(1)
+        if self.tm.clock_ticking:
             self.tv.show_pause_button()
             if self.tm.remaining_time > 0:
                 self.tm.remaining_time -= 1
@@ -68,3 +71,4 @@ class CtimerClockController():
                     self.tv.show_start_button()
                     self.tm.clock_ticking = False
 
+        self.master.after(1000, self.countdown)
