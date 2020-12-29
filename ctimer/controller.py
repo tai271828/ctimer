@@ -1,4 +1,3 @@
-import tkinter as tk
 import time
 import ctimer.view as cv
 import ctimer.model as cm
