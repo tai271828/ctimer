@@ -7,8 +7,34 @@ from tkinter import messagebox as mbox
 import ctimer.ctimer_db as db
 
 
-class CtimerClockView:
-    def __init__(self, timer_model, master, labels, buttons):
+class CtimerClockView(tk.Frame):
+    def __init__(self, timer_model, master):
+        super().__init__(master)
+
+        labels = [
+            tk.Label(self, text="", height=2),
+            tk.Label(self, height=1, width=15, textvariable=""),
+            tk.Label(self, height=1, width=10, textvariable=""),
+            tk.Label(self, height=1, width=10, textvariable=""),
+            tk.Label(self, height=3, width=10, font=("Arial", 30), textvariable="")
+        ]
+
+        buttons = [
+            tk.Button(self,
+                      text="Start",
+                      fg="Green",
+                      width=8,
+                      height=4,
+                      command=self.start_pause),
+            tk.Button(self,
+                      fg="Dark Red",
+                      activebackground="Dark Red",
+                      text="Stop",
+                      width=8,
+                      height=4,
+                      command=self.terminate)
+        ]
+
         self.master = master
         self.tm = timer_model
         master.title(self.tm.title)
@@ -49,6 +75,8 @@ class CtimerClockView:
         self._start_pause_button.grid(row=5, column=0)
         self._stop_button.grid(row=5, column=1)
         self.goal_show_label.grid(row=6, column=0, columnspan=2)
+
+        self.pack()
 
     def show_time(self, time_text, total_clock_counts):
         self._display.config(text=time_print(time_text))

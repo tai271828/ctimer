@@ -6,38 +6,11 @@ import ctimer.model as cm
 import ctimer.ctimer_db as db
 
 
-class CtimerClockController(tk.Frame):
+class CtimerClockController():
     def __init__(self, db_file, clock_details, hide, debug, silence, meta, master=None):
-        super().__init__(master)
 
         self.tm = cm.CtimerClockModel(db_file, clock_details, debug, hide, silence, meta)
-
-        labels = [
-            tk.Label(self, text="", height=2),
-            tk.Label(self, height=1, width=15, textvariable=""),
-            tk.Label(self, height=1, width=10, textvariable=""),
-            tk.Label(self, height=1, width=10, textvariable=""),
-            tk.Label(self, height=3, width=10, font=("Arial", 30), textvariable="")
-        ]
-
-        buttons = [
-            tk.Button(self,
-                      text="Start",
-                      fg="Green",
-                      width=8,
-                      height=4,
-                      command=cv.CtimerClockView.start_pause),
-            tk.Button(self,
-                      fg="Dark Red",
-                      activebackground="Dark Red",
-                      text="Stop",
-                      width=8,
-                      height=4,
-                      command=cv.CtimerClockView.terminate)
-        ]
-
-        self.tv = cv.CtimerClockView(self.tm, master, labels, buttons)
-        self.pack()
+        self.tv = cv.CtimerClockView(self.tm, master)
 
     def countdown(self):
         """
