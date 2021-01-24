@@ -34,4 +34,9 @@ jobs:
 
       - name: PyTest Cases
         run: |
+          # used for tkinter widget test cases
+          # otherwise tkinter will complain when running on github action
+          # "_tkinter.TclError: no display name and no $DISPLAY environment variable"
+          export DISPLAY=:0
+
           inv test
