@@ -19,7 +19,7 @@ jobs:
       - name: Dependency (ubuntu)
         run: |
           # for GUI widget testing
-          apt-get install xvfb
+          sudo apt-get install xvfb -y
 
       - name: Dependency (pip)
         run: |
